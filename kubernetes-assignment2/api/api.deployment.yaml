@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-app-deploy
+  labels:
+    name: api-app-deploy
+    app: voting-lang-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: api
+      app: voting-lang-app
+  template:
+    metadata:
+      name: api
+      labels:
+        name: api
+        app: voting-lang-app
+    spec:
+      containers:
+        - name: backend-api-image
+          image: ghcr.io/divya-gariga/be-votelang
+          env:
+            - name: MONGO_USERNAME
+              value: admin
+            - name: MONGO_PASSWORD
+              value: password
+            - name: MONGO_CONN_STR
+              value: "mongodb://admin:password@mongodb-0.mongodb,mongodb-1.mongodb,mongodb-2.mongodb:27017/langdb"
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: regcred
+        

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app-deploy
+  labels:
+    name: frontend-app-deploy
+    app: voting-lang-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: frontend
+  template:
+    metadata:
+      name: frontend
+      labels:
+        name: frontend
+        app: voting-lang-app
+    spec:
+      containers:
+        - name: frontend-img
+          image: ghcr.io/divya-gariga/fe-votelang
+          ports:
+            - containerPort: 3000
+          
+      imagePullSecrets:
+        - name: regcred
